@@ -1,2 +1,5 @@
 # gilded_rose_python
-Gilded rose refactoring kata
+
+Taken from Emily Bache's repository:
+
+https://github.com/emilybache/GildedRose-Refactoring-Kata
