@@ -115,6 +115,24 @@ class GildedRoseTest(unittest.TestCase):
         #Then
         self.assertEqual(0, items[0].quality)
 
+    def test_quality_of_conjured_objects_decreases_by_two_at_the_of_day(self):
+        #Given
+        items = [Item("Conjured Mana Cake", 3, 6)]
+        gilded_rose = GildedRose(items)
+        #When
+        gilded_rose.update_quality()
+        #Then
+        self.assertEqual(4, items[0].quality)
+
+    def test_quality_of_conjured_objects_decreases_by_four_if_expired_at_the_of_day(self):
+        #Given
+        items = [Item("Conjured Mana Cake", 0, 6)]
+        gilded_rose = GildedRose(items)
+        #When
+        gilded_rose.update_quality()
+        #Then
+        self.assertEqual(2, items[0].quality)
+
 
 
 class ItemTest(unittest.TestCase):
