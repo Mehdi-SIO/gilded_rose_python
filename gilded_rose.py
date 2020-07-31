@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros"
+AGED_BRIE = "Aged Brie"
+TICKETS = "Backstage passes to a TAFKAL80ETC concert"
+MIN_QUALITY = 0
+MAX_QUALITY = 50
+
 
 class GildedRose(object):
 
@@ -7,33 +13,39 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
+            if item.name != AGED_BRIE and item.name != TICKETS:
+                if item.quality > MIN_QUALITY:
+                    if item.name != HAND_OF_RAGNAROS:
+                        self.decrease_quality(item)
             else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
+                if item.quality < MAX_QUALITY:
+                    self.increase_quality(item)
+                    if item.name == TICKETS:
                         if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
+                            if item.quality < MAX_QUALITY:
+                                self.increase_quality(item)
                         if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
+                            if item.quality < MAX_QUALITY:
+                                self.increase_quality(item)
+            if item.name != HAND_OF_RAGNAROS:
                 item.sell_in = item.sell_in - 1
             if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
+                if item.name != AGED_BRIE:
+                    if item.name != TICKETS:
+                        if item.quality > MIN_QUALITY:
+                            if item.name != HAND_OF_RAGNAROS:
+                                self.decrease_quality(item)
                     else:
                         item.quality = item.quality - item.quality
                 else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+                    if item.quality < MAX_QUALITY:
+                        self.increase_quality(item)
+
+    def decrease_quality(self, item):
+        item.quality = item.quality - 1
+
+    def increase_quality(self, item):
+        item.quality = item.quality + 1
 
 
 class Item:
